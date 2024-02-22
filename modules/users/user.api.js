@@ -1,5 +1,27 @@
 const router = require("express").Router();
 const userController = require("./user.controller");
+const isLoggedIn = require("../../utils/isLoggedIn");
+const passport = require("passport");
+
+router.post(
+  "/login",
+  passport.authenticate("local", {
+    successRedirect: "/profile",
+    failureRedirect: "/login",
+
+    failureFlash: true,
+  }),
+  (req, res) => {}
+);
+
+router.get("/logout", (req, res) => {
+  req.logout((err) => {
+    if (err) {
+      return next(err);
+    }
+    res.redirect("/");
+  });
+});
 
 router.get("/register", (req, res) => {
   res.render("register");
@@ -7,7 +29,7 @@ router.get("/register", (req, res) => {
 router.get("/login", (req, res) => {
   res.render("login");
 });
-router.get("/profile", (req, res) => {
+router.get("/profile", isLoggedIn, (req, res) => {
   res.render("profile", { user: "diwas" });
 });
 
