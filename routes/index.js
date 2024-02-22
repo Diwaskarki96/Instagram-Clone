@@ -1,8 +1,12 @@
 const router = require("express").Router();
 const apiRouter = require("./routes.api");
+
 router.get("/", (req, res) => {
-  res.send("index");
+  res.render("login");
 });
+
+router.use("/api/v1", apiRouter);
+
 router.all("*", (req, res, next) => {
   try {
     res.status(404).json({ data: "", msg: "Routes not found" });
@@ -11,5 +15,4 @@ router.all("*", (req, res, next) => {
   }
 });
 
-router.use("/api/v1", apiRouter);
 module.exports = router;
