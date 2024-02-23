@@ -42,7 +42,7 @@ router.post("/register", async (req, res, next) => {
     const userData = { email, name, password };
     const user = await userController.create(userData);
     res.redirect("/api/v1/user/profile");
-    res.json({ data: user, message: "sucess" });
+    //res.json({ data: user, message: "sucess" });
   } catch (e) {
     next(e);
   }
@@ -54,7 +54,7 @@ router.post("/login", async (req, res, next) => {
     const userData = { email, password };
     const user = await userController.login(userData);
     res.redirect("/api/v1/user/profile");
-    res.json({ data: user, message: "sucess" });
+    // res.json({ data: user, message: "sucess" });
   } catch (e) {
     next(e);
   }
