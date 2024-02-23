@@ -6,7 +6,7 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const { passport, sessionMiddleware } = require("./utils/passport");
-
+const flash = require("connect-flash");
 const app = express();
 const PORT = process.env.PORT || 5555;
 const DB_URL = process.env.DB_URL;
@@ -28,6 +28,7 @@ app.use(sessionMiddleware);
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use(flash());
 app.use("/", indexRouter);
 
 app.use(errorHandler);
