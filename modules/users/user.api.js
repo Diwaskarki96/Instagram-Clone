@@ -6,8 +6,8 @@ const passport = require("passport");
 router.post(
   "/login",
   passport.authenticate("local", {
-    successRedirect: "/profile",
-    failureRedirect: "/login",
+    successRedirect: "/api/v1/user/profile",
+    failureRedirect: "/api/v1/user/login",
 
     failureFlash: true,
   }),
@@ -19,7 +19,7 @@ router.get("/logout", (req, res) => {
     if (err) {
       return next(err);
     }
-    res.redirect("/");
+    res.redirect("/api/v1/user/login");
   });
 });
 
@@ -29,7 +29,7 @@ router.get("/register", (req, res) => {
 router.get("/login", (req, res) => {
   res.render("login");
 });
-router.get("/profile", isLoggedIn, (req, res) => {
+router.get("/profile", (req, res) => {
   res.render("profile", { user: "diwas" });
 });
 
@@ -42,7 +42,7 @@ router.post("/register", async (req, res, next) => {
     const userData = { email, name, password };
     const user = await userController.create(userData);
     res.redirect("/api/v1/user/profile");
-    //res.json({ data: user, message: "sucess" });
+    res.json({ data: user, message: "sucess" });
   } catch (e) {
     next(e);
   }
@@ -54,7 +54,7 @@ router.post("/login", async (req, res, next) => {
     const userData = { email, password };
     const user = await userController.login(userData);
     res.redirect("/api/v1/user/profile");
-    //res.json({ data: user, message: "sucess" });
+    res.json({ data: user, message: "sucess" });
   } catch (e) {
     next(e);
   }
