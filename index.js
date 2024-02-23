@@ -4,6 +4,7 @@ const indexRouter = require("./routes/index");
 const errorHandler = require("./utils/errorHandler");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+const cors = require("cors");
 const { passport, sessionMiddleware } = require("./utils/passport");
 
 const app = express();
@@ -15,6 +16,7 @@ mongoose.connect(DB_URL).then(() => {
 });
 
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cors());
 app.use(express.json());
 app.set("view engine", "ejs");
 app.use(express.static("./public"));
