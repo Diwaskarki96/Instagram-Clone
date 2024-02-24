@@ -3,17 +3,6 @@ const userController = require("./user.controller");
 const isLoggedIn = require("../../utils/isLoggedIn");
 const passport = require("passport");
 
-router.post(
-  "/login",
-  passport.authenticate("local", {
-    successRedirect: "/api/v1/user/profile",
-    failureRedirect: "/api/v1/user/login",
-
-    failureFlash: true,
-  }),
-  (req, res) => {}
-);
-
 router.get("/logout", (req, res) => {
   req.logout((err) => {
     if (err) {
@@ -24,13 +13,13 @@ router.get("/logout", (req, res) => {
 });
 
 router.get("/register", (req, res) => {
-  res.render("register");
+  res.render("register", { err: req.flash("error") });
 });
 router.get("/login", (req, res) => {
-  res.render("login");
+  res.render("login", { err: req.flash("error") });
 });
-router.get("/profile", (req, res) => {
-  res.render("profile", { user: "diwas" });
+router.get("/profile", isLoggedIn, (req, res) => {
+  res.render("profile", { user: req.user });
 });
 
 router.post("/register", async (req, res, next) => {
@@ -59,4 +48,13 @@ router.post("/login", async (req, res, next) => {
     next(e);
   }
 });
+router.post(
+  "/login",
+  passport.authenticate("local", {
+    successRedirect: "/api/v1/user/profile",
+    failureRedirect: "/api/v1/user/login",
+
+    failureFlash: true,
+  })
+);
 module.exports = router;
