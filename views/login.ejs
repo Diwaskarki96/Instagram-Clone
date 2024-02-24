@@ -23,6 +23,9 @@
                         alt="Instagram"
                       />
                     </div>
+                    <% if (err.length > 0 ) { %>
+                    <p class="error"><%= err %></p>
+                    <% } %>
                     <!-- Header end -->
                     <div class="form-wrap">
                       <form

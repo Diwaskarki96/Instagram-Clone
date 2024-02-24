@@ -21,6 +21,9 @@
             <hr />
           </div>
         </div>
+        <% if (err.length > 0 ) { %>
+        <p class="error"><%= err %></p>
+        <% } %>
         <div class="container">
           <form action="/api/v1/user/register" method="post">
             <input type="text" name="email" placeholder=" Email" />
