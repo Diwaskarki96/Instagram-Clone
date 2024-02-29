@@ -1,21 +1,43 @@
-const passport = require("passport");
-const expressSession = require("express-session");
-const LocalStrategy = require("passport-local").Strategy; // Example: LocalStrategy for username/password authentication
-const usersRouter = require("../modules/users/user.model");
+const LocalStrategy = require("passport-local").Strategy;
+const userModel = require("../modules/users/user.model");
+const bcrypt = require("bcryptjs");
 
-// Configure Passport strategies
-passport.use(new LocalStrategy(usersRouter.authenticate()));
+const initializingPassport = (passport) => {
+  passport.use(
+    new LocalStrategy(
+      {
+        usernameField: "email",
+        passwordField: "password",
+      },
+      async (email, password, done) => {
+        try {
+          const user = await userModel.findOne({ email: email });
+          if (!user) return done(null, false);
+          const isMatch = await bcrypt.compare(password, user.password);
+          if (!isMatch) return done(null, false);
 
-// Serialize and deserialize user
-passport.serializeUser(usersRouter.serializeUser());
-passport.deserializeUser(usersRouter.deserializeUser());
+          return done(null, user);
+        } catch (error) {
+          return done(error, false);
+        }
+      }
+    )
+  );
+  passport.serializeUser((user, done) => {
+    done(null, user.id);
+  });
 
-// Initialize express-session middleware
-const sessionMiddleware = expressSession({
-  secret: "yokoso",
-  saveUninitialized: true,
-  resave: true,
-});
-
-// Export configured Passport instance and middleware
-module.exports = { passport, sessionMiddleware };
+  passport.deserializeUser(async (id, done) => {
+    try {
+      const user = await userModel.findById(id);
+      done(null, user);
+    } catch (error) {
+      done(error, false);
+    }
+  });
+};
+isAuthenticated = (req, res, next) => {
+  if (req.isAuthenticated) return next();
+  res.redirect("/api/v1/user/profile");
+};
+module.exports = { initializingPassport, isAuthenticated };

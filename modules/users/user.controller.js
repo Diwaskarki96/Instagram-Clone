@@ -7,13 +7,13 @@ const create = async (payload) => {
   return await userModel.create(payload);
 };
 
-const login = async (userData) => {
-  const { email, password } = userData;
-  const user = await userModel.findOne({ email });
-  if (!user) throw new Error("User not found");
-  const isMatch = await bcrypt.compare(password, user.password);
-  if (!isMatch) throw new Error("Invalid password");
-  return user;
-};
+// const login = async (userData) => {
+//   const { email, password } = userData;
+//   const user = await userModel.findOne({ email });
+//   if (!user) throw new Error("User not found");
+//   const isMatch = await bcrypt.compare(password, user.password);
+//   if (!isMatch) throw new Error("Invalid password");
+//   return user;
+// };
 
-module.exports = { create, login };
+module.exports = { create };

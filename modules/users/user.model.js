@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const commonSchema = require("../../utils/commonSchema");
-const plm = require("passport-local-mongoose");
 
 const userSchema = new mongoose.Schema({
   name: { type: String, required: true },
@@ -8,7 +7,6 @@ const userSchema = new mongoose.Schema({
   password: { type: String, required: true },
   ...commonSchema.obj,
 });
-userSchema.plugin(plm);
 
 const userModel = mongoose.model("Members", userSchema);
 module.exports = userModel;
