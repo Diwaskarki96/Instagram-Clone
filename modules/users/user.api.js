@@ -35,10 +35,13 @@ router.post("/register", async (req, res, next) => {
     if (!name) throw new Error("name is missing");
     if (!password) throw new Error("password is missing");
     const userData = { email, name, password };
-    const user = await userController.create(userData);
+    const user = await userController.exitedUser(userData.email);
+    if (user) throw new Error("User existed");
+    const newUser = await userController.create(userData);
     res.redirect("/api/v1/user/login");
     //res.json({ data: user, message: "sucess" });
   } catch (e) {
+    console.error("e", e.message);
     next(e);
   }
 });
