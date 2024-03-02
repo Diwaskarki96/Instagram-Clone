@@ -1,7 +1,6 @@
 const router = require("express").Router();
 const userController = require("./user.controller");
 const { isAuthenticated } = require("../../utils/passport");
-
 const passport = require("passport");
 
 router.get("/logout", (req, res, next) => {
@@ -56,15 +55,14 @@ router.post(
     res.redirect("/api/v1/user/profile");
   }
 );
-// router.post("/login", async (req, res, next) => {
-//   try {
-//     const { email, password } = req.body;
-//     const userData = { email, password };
-//     const user = await userController.login(userData);
-//     res.redirect("/api/v1/user/profile");
-//     // res.json({ data: user, message: "sucess" });
-//   } catch (e) {
-//     next(e);
-//   }
-// });
+router.get("/createuser", async (req, res) => {
+  const user = await userController.create({
+    name: "diwas",
+    email: "diwas@diwas",
+    password: "diwas",
+    posts: [],
+  });
+
+  res.json({ data: user, message: "sucess" });
+});
 module.exports = router;

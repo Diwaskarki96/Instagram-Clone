@@ -5,7 +5,13 @@ const userSchema = new mongoose.Schema({
   name: { type: String, required: true },
   email: { type: String, required: true },
   password: { type: String, required: true },
-  ...commonSchema.obj,
+  posts: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Post",
+    },
+  ],
+  // ...commonSchema.obj,
 });
 
 const userModel = mongoose.model("Members", userSchema);
