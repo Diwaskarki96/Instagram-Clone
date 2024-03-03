@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload</title>
+    <link rel="stylesheet" href="/css/upload.css">
+</head>
+<body>
+    <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>File Upload</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <form action="/api/v1/post/upload" method="post" enctype="multipart/form-data">
+      <h1><strong>Add New Posts</h1>
+
+      <div class="form-group">
+        <div class="form-group file-area">
+          <label for="images"
+            >Images
+            </label
+          >
+          <input
+            type="file"
+            name="file"
+            id="images"
+            required="required"
+            multiple="multiple"
+          />
+          <div class="file-dummy">
+            <div class="success">Great, your files are selected. Keep on.</div>
+            <div class="default">Please select some files</div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="caption">Caption </label>
+        <input type="text" name="caption" id="caption" class="form-controll" />
+      </div>
+
+      <div class="form-group">
+        <button type="submit">Upload images</button>
+      </div>
+    </form>
+
+    <link
+      href="https://fonts.googleapis.com/css?family=Lato:100,200,300,400,500,600,700"
+      rel="stylesheet"
+      type="text/css"
+    />
+
+    <a
+      href="/api/v1/user/profile"
+      class="back-to-article"   
+      >back to Profile</a
+    >
+  </body>
+</html>
+
+</body>
+</html>
