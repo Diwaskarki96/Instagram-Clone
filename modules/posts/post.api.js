@@ -16,6 +16,9 @@ router.get("/", async (req, res) => {
 });
 
 //-------------upload---------------
+router.get("/upload", isAuthenticated, (req, res) => {
+  res.render("upload");
+});
 router.post(
   "/upload",
   upload.single("file"),
@@ -33,8 +36,8 @@ router.post(
     });
     user.posts.push(post._id);
     await user.save();
-    res.send("done");
-    // res.redirect("/api/v1/user/profile");
+
+    res.redirect("/api/v1/user/profile");
   }
 );
 

@@ -2,6 +2,7 @@ const router = require("express").Router();
 const userController = require("./user.controller");
 const { isAuthenticated } = require("../../utils/passport");
 const passport = require("passport");
+const userModel = require("./user.model");
 
 router.get("/logout", (req, res, next) => {
   req.logout((err) => {
@@ -18,13 +19,21 @@ router.get("/register", (req, res) => {
 router.get("/login", (req, res) => {
   res.render("login", { err: req.flash("error") });
 });
-router.get("/profile", isAuthenticated, (req, res) => {
+router.get("/profile", isAuthenticated, async (req, res) => {
   if (req.user) {
-    res.render("profile", { user: req.user });
+    const user = await userModel
+      .findOne({ email: req.user.email })
+      .populate("posts");
+
+    res.render("profile", { user: user });
   } else {
     // User is not authenticated, redirect to login page
     res.redirect("/api/v1/user/login");
   }
+});
+
+router.get("/editprofile", (req, res) => {
+  res.render("editProfile");
 });
 
 router.post("/register", async (req, res, next) => {
