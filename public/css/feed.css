@@ -35,7 +35,9 @@ body {
   display: inline-block;
   cursor: pointer;
 }
-
+.feed {
+  margin-top: 60px; /* Adjust based on your header height */
+}
 .searchbar {
   width: -10%;
   text-align: end;
@@ -181,7 +183,9 @@ main .container {
 .col-3 h4 {
   color: rgb(100, 100, 100);
 }
-
+.card {
+  overflow: hidden;
+}
 .col-3 .card {
   margin-bottom: 20px;
   position: relative;
@@ -321,6 +325,9 @@ main .container {
 }
 
 .imgBx {
+  height: 100%;
+  width: 100%;
+  background-size: cover;
   position: relative;
   width: 100%;
   min-height: 600px;
