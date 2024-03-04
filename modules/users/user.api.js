@@ -3,6 +3,7 @@ const userController = require("./user.controller");
 const { isAuthenticated } = require("../../utils/passport");
 const passport = require("passport");
 const userModel = require("./user.model");
+const upload = require("../../utils/multer");
 
 router.get("/logout", (req, res, next) => {
   req.logout((err) => {
@@ -24,16 +25,14 @@ router.get("/profile", isAuthenticated, async (req, res) => {
     const user = await userModel
       .findOne({ email: req.user.email })
       .populate("posts");
-
+    if (!user.profileimage) {
+      user.profileimage = "https://example.com/default-profile-picture.jpg";
+    }
     res.render("profile", { user: user });
   } else {
     // User is not authenticated, redirect to login page
     res.redirect("/api/v1/user/login");
   }
-});
-
-router.get("/editprofile", (req, res) => {
-  res.render("editProfile");
 });
 
 router.post("/register", async (req, res, next) => {
@@ -74,4 +73,28 @@ router.get("/createuser", async (req, res) => {
 
   res.json({ data: user, message: "sucess" });
 });
+
+//-----------editProfile-------------
+router.get("/editprofile", isAuthenticated, async (req, res) => {
+  const user = await userModel.findOne({ email: req.user.email });
+  res.render("editProfile", { user });
+});
+router.post(
+  "/editprofile",
+  isAuthenticated,
+  upload.single("file"),
+  async (req, res) => {
+    const user = await userModel.findOneAndUpdate(
+      { email: req.user.email },
+      { name: req.body.name, bio: req.body.bio },
+      { new: true }
+    );
+    if (req.file) {
+      user.profileimage = req.file.filename;
+    }
+    await user.save();
+    res.redirect("/api/v1/user/profile");
+  }
+);
+//-------------------------------------------
 module.exports = router;

@@ -42,6 +42,15 @@ router.post(
 );
 
 //----------------------------------------
+//----------------Feed------------------------
+router.get("/feed", isAuthenticated, async (req, res) => {
+  const posts = await postModel.find().populate("user");
+  const user = await userModel.find();
+
+  res.render("feed", { posts, user });
+});
+//----------------------------------------
+
 router.get("/allposts", async (req, res) => {
   const allPosts = await userModel
     .findOne({ _id: "65e0b6a05d65c4b29ed92fbb" })
