@@ -25,9 +25,7 @@ router.get("/profile", isAuthenticated, async (req, res) => {
     const user = await userModel
       .findOne({ email: req.user.email })
       .populate("posts");
-    if (!user.profileimage) {
-      user.profileimage = "https://example.com/default-profile-picture.jpg";
-    }
+
     res.render("profile", { user: user });
   } else {
     // User is not authenticated, redirect to login page
@@ -63,16 +61,6 @@ router.post(
     res.redirect("/api/v1/user/profile");
   }
 );
-router.get("/createuser", async (req, res) => {
-  const user = await userController.create({
-    name: "diwas",
-    email: "diwas@diwas",
-    password: "diwas",
-    posts: [],
-  });
-
-  res.json({ data: user, message: "sucess" });
-});
 
 //-----------editProfile-------------
 router.get("/editprofile", isAuthenticated, async (req, res) => {

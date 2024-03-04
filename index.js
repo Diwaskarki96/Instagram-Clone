@@ -2,7 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const indexRouter = require("./routes/index");
 const errorHandler = require("./utils/errorHandler");
-const bodyParser = require("body-parser");
+
 const mongoose = require("mongoose");
 const cors = require("cors");
 const passport = require("passport");
@@ -27,14 +27,11 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(express.urlencoded({ extended: true }));
-//app.use(bodyParser.urlencoded({ extended: false }));
+
 app.use(cors());
 app.use(express.json());
 app.set("view engine", "ejs");
 app.use(express.static("./public"));
-
-// Set up session middleware
-//app.use(sessionMiddleware);
 
 app.use(flash());
 app.use("/", indexRouter);
