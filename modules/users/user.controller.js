@@ -15,7 +15,7 @@ const create = async (payload) => {
 //   if (!isMatch) throw new Error("Invalid password");
 //   return user;
 // };
-const exitedUser = async (email) => {
+const findByEmail = async ({ email }) => {
   return await userModel.findOne({ email });
 };
-module.exports = { create, exitedUser };
+module.exports = { create, findByEmail };

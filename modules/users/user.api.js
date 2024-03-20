@@ -4,6 +4,7 @@ const { isAuthenticated } = require("../../utils/passport");
 const passport = require("passport");
 const userModel = require("./user.model");
 const upload = require("../../utils/multer");
+const { userValidation } = require("./user.validation");
 
 router.get("/logout", (req, res, next) => {
   req.logout((err) => {
@@ -35,18 +36,15 @@ router.get("/profile", isAuthenticated, async (req, res) => {
 
 router.post("/register", async (req, res, next) => {
   try {
-    const { email, name, password } = req.body;
-    if (!email) throw new Error("email is missing");
-    if (!name) throw new Error("name is missing");
-    if (!password) throw new Error("password is missing");
-    const userData = { email, name, password };
-    const user = await userController.exitedUser(userData.email);
+    const data = req.body;
+    const validateData = await userValidation.validate(data);
+
+    const user = await userController.findByEmail({ email: req.body.email });
     if (user) throw new Error("User existed");
-    const newUser = await userController.create(userData);
-    res.redirect("/api/v1/user/login");
-    //res.json({ data: user, message: "sucess" });
+    const newUser = await userController.create(validateData);
+    //  res.redirect("/api/v1/user/login");
+    res.json({ data: newUser, message: "sucess" });
   } catch (e) {
-    console.error("e", e.message);
     next(e);
   }
 });
