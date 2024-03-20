@@ -11,15 +11,6 @@
       <div class="page">
         <div class="header">
           <h1 class="logo">Instagram</h1>
-          <p>Sign up to see photos and videos from your friends.</p>
-          <button>
-            <i class="fab fa-facebook-square"></i> Log in with Facebook
-          </button>
-          <div>
-            <hr />
-            <p>OR</p>
-            <hr />
-          </div>
         </div>
         <% if (err.length > 0 ) { %>
         <p class="error"><%= err %></p>
@@ -44,13 +35,7 @@
       <div class="option">
         <p>Have an account? <a href="/api/v1/user/login">Log in</a></p>
       </div>
-      <div class="otherapps">
-        <p>Get the app.</p>
-        <button type="button"><i class="fab fa-apple"></i> App Store</button>
-        <button type="button">
-          <i class="fab fa-google-play"></i> Google Play
-        </button>
-      </div>
+
       <div class="footer">
         <ul>
           <li><a href="">ABOUT</a></li>
